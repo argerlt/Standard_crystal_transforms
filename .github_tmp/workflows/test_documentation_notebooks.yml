@@ -1,0 +1,61 @@
+##
+## Copyright 2018-2025 the orix developers
+##
+## This file is part of orix.
+##
+## orix is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## orix is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with orix. If not, see <http://www.gnu.org/licenses/>.
+##
+
+# This workflow checks that user guide notebooks stored with cell outputs are compatible
+# with the current API. It does this by running the notebooks and comparing the produced
+# cell output with the stored cell output using nbval
+# (https://nbval.readthedocs.io/en/latest)
+
+name: Test documentation notebooks
+
+on:
+  schedule:
+    - cron: '15 6 * * 1' # Run every Monday morning
+  workflow_dispatch:
+    workflow: "*"
+
+jobs:
+  test-documentation-notebooks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      MPLBACKEND: agg
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies and package
+        shell: bash
+        run: |
+          pip install -U -e .'[tests, doc]'
+          pip install nbval
+
+      - name: Display versions
+        run: |
+          python -V
+          pip -V
+          pip list
+
+      - name: Test documentation notebooks
+        run: |
+          pytest -v --nbval doc

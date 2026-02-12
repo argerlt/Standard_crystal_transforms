@@ -1,0 +1,52 @@
+##
+## Copyright 2018-2025 the orix developers
+##
+## This file is part of orix.
+##
+## orix is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## orix is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with orix. If not, see <http://www.gnu.org/licenses/>.
+##
+
+# .readthedocs.yaml
+# Read the Docs configuration file
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+
+# Required
+version: 2
+
+# Build documentation in the doc/ directory with Sphinx
+sphinx:
+  configuration: doc/conf.py
+
+# Set the version of Python and other tools you might need
+build:
+  os: ubuntu-22.04
+  tools:
+    python: "mambaforge-22.9"
+  apt_packages:
+    - imagemagick
+
+# Doc formats
+formats:
+  - htmlzip
+
+conda:
+  environment: doc/environment.yml
+
+# Python environment for building the docs
+python:
+  install:
+    - method: pip
+      path: .
+      extra_requirements:
+        - doc
