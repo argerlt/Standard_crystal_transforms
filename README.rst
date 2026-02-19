@@ -1,105 +1,93 @@
-|logo| orix
-===========
+Standard Crystal Transforms
+===========================
 
-.. |logo| image:: https://raw.githubusercontent.com/pyxem/orix/develop/doc/_static/img/orix_logo.png
-  :width: 50
+This repository is a first-pass attempt at creating a self-consistent standard
+for describing common crystallographic objects, as well as some companion tools
+for visualization and teaching.
 
-orix is an open-source Python library for analysing orientations and crystal symmetry.
+This work begins with the three basic objects in 3D space:
+   - Vectors
+   - Transforms
+   - Symmetry
 
-The package defines objects and functions for the analysis of orientations represented
-as quaternions and 3D rotation vectors, accounting for crystal symmetry.
-Functionality builds primarily on `NumPy <https://www.numpy.org>`_ and `Matplotlib
-<https://matplotlib.org>`_.
-Initiation of the package was inspired by `MTEX <https://mtex-toolbox.github.io>`_.
+And builds up the decriptors needed for experimental tools such as EBSD, HEDM,
+and TEM, as well as crystallographic concepts like orientations, misorientations,
+and disorientations.
 
-orix is released under the GPL v3 license.
+This is not intended as an end-all-be-all standard, but more as a teaching tool
+as well as a reference point to help when converting data or techniques between
+inconsistent conventions. (MTEX to ORIX, HEXRD to OIM, simulation to experiment, etc.)
 
-.. |pypi_version| image:: https://img.shields.io/pypi/v/orix.svg?style=flat
-   :target: https://pypi.python.org/pypi/orix
+This work is based on several existing standards (listed below). These are all
+self-consistent and complete as isolated works, but create incongruities when used
+together to describe concepts beyond their intended scopes. 
 
-.. |conda| image:: https://img.shields.io/conda/vn/conda-forge/orix.svg?logo=conda-forge&logoColor=white
-   :target: https://anaconda.org/conda-forge/orix
+This work does however depart from the above standards in a few important ways:
+1) It treats quaternions as the fundamental representation of a transform in 3D.
+2) For every equation, python code is included, and if possible, augmented with 3D plots
 
-.. |build_status| image:: https://github.com/pyxem/orix/workflows/build/badge.svg
-   :target: https://github.com/pyxem/orix/actions/workflows/build.yml
+*TODO: maybe add reasoning here?*
 
-.. |python| image:: https://img.shields.io/badge/python-3.10+-blue.svg
-   :target: https://www.python.org/downloads/
+Documentation and Examples
+==========================
+All Documentation and examples are written with a combination of ReStructured Text and
+Python, which is converted into Latex and HTML using ReadtheDocs, and is available online:
+*TODO: add actual readthedocs link after I make it.*
 
-.. |Coveralls| image:: https://coveralls.io/repos/github/pyxem/orix/badge.svg?branch=develop
-   :target: https://coveralls.io/github/pyxem/orix?branch=develop
+The tools in the examples use the included module MORIX, which can be install with ``pip``::
 
-.. |pypi_downloads| image:: https://img.shields.io/pypi/dm/orix.svg?label=PyPI%20downloads
-   :target: https://pypi.org/project/orix/
+   cd Standard_crystal_transforms
+   pip install -e ./morix
 
-.. |conda_downloads| image:: https://img.shields.io/conda/dn/conda-forge/orix.svg?label=Conda%20downloads
-   :target: https://anaconda.org/conda-forge/orix
 
-.. |doi| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3459662.svg
-   :target: https://doi.org/10.5281/zenodo.3459662
+*TODO: test this*
 
-.. |GPLv3| image:: https://img.shields.io/github/license/pyxem/orix
-   :target: https://opensource.org/license/GPL-3.0
+Starting References and Software
+================================
 
-.. |GH-discuss| image:: https://img.shields.io/badge/GitHub-Discussions-green?logo=github
-   :target: https://github.com/pyxem/orix/discussions
+The following publications are used as the basis for this work, **and should be cited in any publications or results derived from this work**
 
-.. |binder| image:: https://mybinder.org/badge_logo.svg
-   :target: https://mybinder.org/v2/gh/pyxem/orix/HEAD
+- [Crystallographic Texture and Group Representations](https://link.springer.com/book/10.1007/978-94-024-2158-3) (Chi-Sing Man): Sections 1.1 and 1.2
+- [Structure of Materials](cambridge.org/highereducation/books/structure-of-materials/22A17D7856B8472E7B73B38F1147C0FD) (Marc De Graef and Michael McHenry) Chapters 4-10
+- [International Tables for Crystallography, Volume A](https://it.iucr.org/A/)
+- [On three-dimensional Misorientation spaces](https://doi.org/10.1098/rspa.2017.0274) (Robert Krakow et. al.)
 
-.. |docs| image:: https://readthedocs.org/projects/orix/badge/?version=latest
-   :target: https://orix.readthedocs.io/en/latest
+*TODO: correctly reference/ credit these, add DOI's maybe?*
 
-.. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
-   :target: https://github.com/psf/black
+Additionally, while this is intended as a language-agnostic work, [ORIX](https://orix.readthedocs.io/en/stable/) is used as
+the basis for much of the python code as many of the above standards have been partially implemented already.
 
-+----------------------+------------------------------------------------+
-| Deployment           | |pypi_version| |conda|                         |
-+----------------------+------------------------------------------------+
-| Build status         | |build_status| |docs| |python|                 |
-+----------------------+------------------------------------------------+
-| Metrics              | |Coveralls|                                    |
-+----------------------+------------------------------------------------+
-| Activity             | |pypi_downloads| |conda_downloads|             |
-+----------------------+------------------------------------------------+
-| Citation             | |doi|                                          |
-+----------------------+------------------------------------------------+
-| License              | |GPLv3|                                        |
-+----------------------+------------------------------------------------+
-| Community            | |GH-discuss|                                   |
-+----------------------+------------------------------------------------+
-| Formatter            | |black|                                        |
-+----------------------+------------------------------------------------+
+Differences between this standard and ORIX
+==========================================
 
-Documentation
--------------
+ORIX, like all other software packages I am aware of, does not fully align with all the standards above, and has a few unique
+hiccups. However, ORIX is also a semi-mature package with dozens of projects dependent on it,
+so updating even accidental conventions will have significant knock-on effects.
 
-Refer to the `documentation <https://orix.readthedocs.io>`__ for detailed installation
-instructions, a user guide, and the `changelog
-<https://orix.readthedocs.io/en/latest/changelog.html>`_.
+Thus, this repository comes with a module MORIX (more orix) that alters some core functionality. If this
+standard becomes popular, it might be rolled into ORIX eventually, or it might form a seperate project that ORIX
+inherits from.
 
-Installation
-------------
+Related Talks
+=============
 
-orix can be installed with ``pip``::
+This project will be first presented publically at TMS 2026 as part of the following talk:
 
-    pip install orix
+**"An Effort Towards the Standardization of Disorientations in Texture"**
 
-or ``conda``::
+Texture analysis has been historically plagued by complications arising from differing orientation conventions. Recent work has helped alleviate this confusion, with two notable examples being the rotation representations from Rowenhorst et. al. 2015, and the misorientation fundamental zone conventions from Krakow et. al 2017. Many existing projects (MTEX, DREAM3D, ORIX , OIM, py4DSTEM, etc.) adopt or reference these standards, but these alone are insufficient to ubiquitously define disorientations between orientations. This can lead to difficult to diagnose errors when modeling relevant properties such as plastic deformation and fatigue. The current work builds on existing standards to define a unified set of texture conventions and includes an open-source repository of implementations in python. These can be adopted as-is by existing projects, but the primary intention is feedback from the community will help refine these conventions for an upcoming publication.
 
-    conda install orix -c conda-forge
+Austin Gerlt
+*Hakon Anes*
+*Steve Niezgoda*
+*Marc Degraef*
+*Anthony Rollett*
+*David Rowenhorst*
+Jake Benzing
+(*Italicized names have expressed interest and are awaiting feedback*)
 
-The source code is hosted in `GitHub <https://github.com/pyxem/orix>`_, and can also be
-downloaded from `PyPI <https://pypi.org/project/orix>`_ and
-`Anaconda <https://anaconda.org/conda-forge/orix>`_.
+*TODO: add blurb with links encouraging contributions*
 
-Further details are available in the
-`installation guide <https://orix.readthedocs.io/en/latest/user/installation.html>`_.
 
-Citing orix
------------
-
-If analysis using orix forms a part of published work please cite the paper (`journal
-<https://doi.org/10.1107/S1600576720011103>`_, `arXiv
-<https://arxiv.org/abs/2001.02716>`_) and `the software
-<https://doi.org/10.5281/zenodo.3459662>`_.
+All software dependent on ORIX is released under a GPLv3 license (by necessity, not choice). All other
+works are released under a *TODO, figure out proper CC license to use here*
