@@ -36,8 +36,7 @@ Python, which is converted into Latex and HTML using ReadtheDocs, and is availab
 
 The tools in the examples use the included module MORIX, which can be install with ``pip``::
 
-   cd Standard_crystal_transforms
-   pip install -e ./morix
+   pip install -e ./Standard_crystal_transforms
 
 
 *TODO: test this*
